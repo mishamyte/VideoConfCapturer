@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VSP_Capturer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Video System Capturer"  
+        WindowStartupLocation="CenterScreen"
+		Closing="CloseAll"
+		Height="600" Width="900">
+	<Grid>
+		<Image x:Name="CameraImage" HorizontalAlignment="Left" Height="450" Margin="29,44,0,0" VerticalAlignment="Top" Width="600"/>
+		<ComboBox x:Name="CamerasList" HorizontalAlignment="Left" Margin="663,44,0,0" VerticalAlignment="Top" Width="120"/>
+		<Button x:Name="RecordingButton" Content="Start" HorizontalAlignment="Left" Margin="795,44,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.404,0.394"/>
+
+	</Grid>
 </Window>
