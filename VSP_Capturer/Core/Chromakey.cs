@@ -1,15 +1,19 @@
 ﻿using System.Drawing;
 using Kaliko.ImageLibrary;
 using Kaliko.ImageLibrary.Filters;
+using VSP_Capturer.Config;
 
 namespace VSP_Capturer.Core
 {
 	public class Chromakey
 	{
 		private ChromaKeyFilter _filter;
+		private readonly FilterSettings _filterSettings;
 
-		public Chromakey()
+		public Chromakey(FilterSettings filterSettings)
 		{
+			_filterSettings = filterSettings;
+
 			CreateFilter();
 		}
 
@@ -17,10 +21,10 @@ namespace VSP_Capturer.Core
 		{
 			_filter = new ChromaKeyFilter
 			{
-				KeyColor = Color.FromArgb(88, 195, 169),
-				ToleranceHue = 40,
-				ToleranceSaturnation = 0.7f,
-				ToleranceBrightness = 0.5f
+				KeyColor = Color.FromArgb(_filterSettings.Red, _filterSettings.Green, _filterSettings.Blue),
+				ToleranceHue = _filterSettings.Hue,
+				ToleranceSaturnation = _filterSettings.Saturation,
+				ToleranceBrightness = _filterSettings.Brightness
 			};
 		}
 

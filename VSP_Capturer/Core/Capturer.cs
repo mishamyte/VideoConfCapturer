@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
 using AForge.Video;
 using AForge.Video.DirectShow;
@@ -13,27 +12,20 @@ namespace VSP_Capturer.Core
 {
     public class Capturer
     {
-	    private readonly ComboBox _camerasList;
-	    private readonly Button _recordingButton;
 	    private readonly Image _cameraImage;
 
-	    private readonly Chromakey _chromakey = new Chromakey();
+	    private readonly Chromakey _chromakey;
 	    private readonly FilterSettings _filterSettings;
 
 	    private FilterInfoCollection _cameras;
 	    private VideoCaptureDevice _device;
 
-	    public Capturer(Image cameraImage, ComboBox camerasList, Button recordingButton, FilterSettings filterSettings)
+	    public Capturer(Image cameraImage, FilterSettings filterSettings)
 	    {
 		    _cameraImage = cameraImage;
-		    _camerasList = camerasList;
-		    _recordingButton = recordingButton;
 
 		    _filterSettings = filterSettings;
-
-		    _recordingButton.Click += RecordingButtonClicked;
-
-			FillCamerasList();
+			_chromakey = new Chromakey(filterSettings);
 	    }
 
 	    public void Close()
@@ -46,30 +38,29 @@ namespace VSP_Capturer.Core
 		    _chromakey.CreateFilter();
 	    }
 
-	    private void FillCamerasList()
+	    public FilterInfoCollection GetCamerasList()
 	    {
-		    _cameras = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-		    foreach (FilterInfo camera in _cameras)
-		    {
-			    _camerasList.Items.Add(camera.Name);
-		    }
-		    _camerasList.SelectedIndex = 0;
+			_cameras = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+		    return _cameras;
 	    }
 
-	    private void RecordingButtonClicked(object sender, EventArgs e)
+	    public bool CameraIsRunning()
 	    {
-		    if (_device == null || !_device.IsRunning)
+		    return !(_device == null || !_device.IsRunning);
+
+	    }
+
+	    public void RecordingButtonClicked(int index)
+	    {
+		    if (!CameraIsRunning())
 		    {
-				_device = new VideoCaptureDevice(_cameras[_camerasList.SelectedIndex].MonikerString);
+				_device = new VideoCaptureDevice(_cameras[index].MonikerString);
 			    _device.NewFrame += FrameHandler;
-			    _recordingButton.Content = "Stop";
 				_device.Start();
 		    }
 		    else
 		    {
-			    _recordingButton.Content = "Start";
 				_device.Stop();
-				FillCamerasList();
 				Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
 					new Action(() => _cameraImage.Source = null));
 			}
@@ -77,7 +68,7 @@ namespace VSP_Capturer.Core
 
 	    private void FrameHandler(object sender, NewFrameEventArgs eventArgs)
 	    {
-		    var frame = (Bitmap) eventArgs.Frame.Clone();
+		    var frame = eventArgs.Frame;
 		    var frameImage = 
 				_filterSettings.ApplyFilter ? _chromakey.ApplyFilter(frame).ToBitmapImage() : frame.ToBitmapImage();
 

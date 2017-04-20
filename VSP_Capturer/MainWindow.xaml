@@ -15,7 +15,7 @@
 
 		<Image x:Name="CameraImage" HorizontalAlignment="Left" Height="450" Margin="29,44,0,0" VerticalAlignment="Top" Width="600"/>
 		<ComboBox x:Name="CamerasList" HorizontalAlignment="Left" Margin="663,44,0,0" VerticalAlignment="Top" Width="120"/>
-		<Button x:Name="RecordingButton" Content="Start" HorizontalAlignment="Left" Margin="795,44,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.404,0.394"/>
+		<Button x:Name="RecordingButton" Content="Start" HorizontalAlignment="Left" Margin="795,44,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.404,0.394" Click="RecordingButton_Click"/>
 
 		<CheckBox x:Name="ChromakeyCheckbox" Content="Apply Chromakey" HorizontalAlignment="Left" Margin="663,87,0,0" VerticalAlignment="Top" Width="120" Checked="ChromakeyCheckbox_StateChanged" Unchecked="ChromakeyCheckbox_StateChanged"/>
 
@@ -31,5 +31,12 @@
 		<Slider x:Name="BlueSlider" HorizontalAlignment="Left" Margin="685,182,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="BlueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
 		<xctk:IntegerUpDown x:Name="BlueSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="835,182,6,362" RenderTransformOrigin="1.225,-8.846" ValueChanged="BlueSpinner_OnValueChanged"/>
 
+		<Label x:Name="HueLabel" Content="H" HorizontalAlignment="Left" Margin="663,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<xctk:DoubleUpDown Name="HueSpinner" FormatString="F1" Value="0" Increment=".1" Margin="685,222,157,321" ValueChanged="HueSpinner_OnValueChanged"/>
+		<Label x:Name="SaturationLabel" Content="S" HorizontalAlignment="Left" Margin="741,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<xctk:DoubleUpDown x:Name="SaturationSpinner" FormatString="F1" Value="0" Increment=".1" Margin="761,222,81,321" ValueChanged="SaturationSpinner_OnValueChanged"/>
+		<Label x:Name="BrightnessLabel" Content="B" HorizontalAlignment="Left" Margin="816,222,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="4.722,0.462"/>
+		<xctk:DoubleUpDown x:Name="BrightnessSpinner" FormatString="F1" Value="0" Increment=".1" Margin="835,222,7,321" RenderTransformOrigin="0.5,0.444" ValueChanged="BrightnessSpinner_OnValueChanged"/>
+	
 	</Grid>
 </Window>
