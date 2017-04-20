@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using Kaliko.ImageLibrary;
 using VSP_Capturer.Config;
 using VSP_Capturer.Helpers;
 using Image = System.Windows.Controls.Image;
@@ -15,17 +16,20 @@ namespace VSP_Capturer.Core
 	    private readonly Image _cameraImage;
 
 	    private readonly Chromakey _chromakey;
-	    private readonly FilterSettings _filterSettings;
+	    private readonly Sender _sender;
+	    private readonly ConfigManager _configManager;
 
 	    private FilterInfoCollection _cameras;
 	    private VideoCaptureDevice _device;
 
-	    public Capturer(Image cameraImage, FilterSettings filterSettings)
+	    public Capturer(Image cameraImage, Sender sender, ConfigManager configManager)
 	    {
 		    _cameraImage = cameraImage;
 
-		    _filterSettings = filterSettings;
-			_chromakey = new Chromakey(filterSettings);
+		    _sender = sender;
+
+		    _configManager = configManager;
+			_chromakey = new Chromakey(_configManager.FilterSettings);
 	    }
 
 	    public void Close()
@@ -69,9 +73,25 @@ namespace VSP_Capturer.Core
 	    private void FrameHandler(object sender, NewFrameEventArgs eventArgs)
 	    {
 		    var frame = eventArgs.Frame;
-		    var frameImage = 
-				_filterSettings.ApplyFilter ? _chromakey.ApplyFilter(frame).ToBitmapImage() : frame.ToBitmapImage();
-
+		    BitmapImage frameImage;
+		    if (_configManager.FilterSettings.ApplyFilter)
+		    {
+			    var filteredImage = _chromakey.ApplyFilter(frame);
+				frameImage = filteredImage.ToBitmapImage();
+			    if (_configManager.SocketSettings.IsSendActive)
+			    {
+				    _sender.Send(filteredImage.Scale().ToBitmapImage().ToJpegByteArray());
+			    }
+		    }
+		    else
+		    {
+			    frameImage = frame.ToBitmapImage();
+				if (_configManager.SocketSettings.IsSendActive)
+				{
+					_sender.Send(new KalikoImage(frame).Scale().ToBitmapImage().ToJpegByteArray());
+				}
+			}
+		
 			frameImage.Freeze();
 
 			Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,

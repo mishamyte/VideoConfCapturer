@@ -9,34 +9,37 @@
         Title="Video System Capturer"  
         WindowStartupLocation="CenterScreen"
 		Closing="CloseAll"
+		ResizeMode="CanMinimize"
 		Height="600" Width="900">
 	<Grid>
-		<Canvas Name="ColorCanvas" HorizontalAlignment="Left" Height="109" Margin="659,108,0,0" VerticalAlignment="Top" Width="230"/>
+		<Canvas Name="ColorCanvas" HorizontalAlignment="Left" Height="109" Margin="642,108,0,0" VerticalAlignment="Top" Width="230"/>
 
 		<Image x:Name="CameraImage" HorizontalAlignment="Left" Height="450" Margin="29,44,0,0" VerticalAlignment="Top" Width="600"/>
-		<ComboBox x:Name="CamerasList" HorizontalAlignment="Left" Margin="663,44,0,0" VerticalAlignment="Top" Width="120"/>
-		<Button x:Name="RecordingButton" Content="Start" HorizontalAlignment="Left" Margin="795,44,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.404,0.394" Click="RecordingButton_Click"/>
+		<ComboBox x:Name="CamerasList" HorizontalAlignment="Left" Margin="648,44,0,0" VerticalAlignment="Top" Width="120"/>
+		<Button x:Name="RecordingButton" Content="Start" HorizontalAlignment="Left" Margin="782,44,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.404,0.394" Click="RecordingButton_Click"/>
 
-		<CheckBox x:Name="ChromakeyCheckbox" Content="Apply Chromakey" HorizontalAlignment="Left" Margin="663,87,0,0" VerticalAlignment="Top" Width="120" Checked="ChromakeyCheckbox_StateChanged" Unchecked="ChromakeyCheckbox_StateChanged"/>
+		<CheckBox x:Name="ChromakeyCheckbox" Content="Apply Chromakey" HorizontalAlignment="Left" Margin="648,87,0,0" VerticalAlignment="Top" Width="120" Checked="ChromakeyCheckbox_StateChanged" Unchecked="ChromakeyCheckbox_StateChanged"/>
 
-		<Label x:Name="RedLabel" Content="R" HorizontalAlignment="Left" Margin="659,116,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-		<Slider x:Name="RedSlider" HorizontalAlignment="Left" Margin="685,120,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="RedSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
-		<xctk:IntegerUpDown x:Name="RedSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="835,120,6,424" RenderTransformOrigin="1.225,-8.846" ValueChanged="RedSpinner_OnValueChanged"/>
+		<Label x:Name="RedLabel" Content="R" HorizontalAlignment="Left" Margin="644,116,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<Slider x:Name="RedSlider" HorizontalAlignment="Left" Margin="670,120,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="RedSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
+		<xctk:IntegerUpDown x:Name="RedSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="820,120,21,424" RenderTransformOrigin="1.225,-8.846" ValueChanged="RedSpinner_OnValueChanged"/>
 
-		<Label x:Name="GreenLabel" Content="G" HorizontalAlignment="Left" Margin="659,147,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-		<Slider x:Name="GreenSlider" HorizontalAlignment="Left" Margin="685,151,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="GreenSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
-		<xctk:IntegerUpDown x:Name="GreenSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="835,151,6,393" RenderTransformOrigin="1.225,-8.846" ValueChanged="GreenSpinner_OnValueChanged"/>
+		<Label x:Name="GreenLabel" Content="G" HorizontalAlignment="Left" Margin="644,147,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<Slider x:Name="GreenSlider" HorizontalAlignment="Left" Margin="670,151,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="GreenSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
+		<xctk:IntegerUpDown x:Name="GreenSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="820,151,21,393" RenderTransformOrigin="1.225,-8.846" ValueChanged="GreenSpinner_OnValueChanged"/>
 
-		<Label x:Name="BlueLabel" Content="B" HorizontalAlignment="Left" Margin="659,178,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-		<Slider x:Name="BlueSlider" HorizontalAlignment="Left" Margin="685,182,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="BlueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
-		<xctk:IntegerUpDown x:Name="BlueSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="835,182,6,362" RenderTransformOrigin="1.225,-8.846" ValueChanged="BlueSpinner_OnValueChanged"/>
+		<Label x:Name="BlueLabel" Content="B" HorizontalAlignment="Left" Margin="644,178,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<Slider x:Name="BlueSlider" HorizontalAlignment="Left" Margin="670,182,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="BlueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
+		<xctk:IntegerUpDown x:Name="BlueSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="820,182,21,362" RenderTransformOrigin="1.225,-8.846" ValueChanged="BlueSpinner_OnValueChanged"/>
 
-		<Label x:Name="HueLabel" Content="H" HorizontalAlignment="Left" Margin="663,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-		<xctk:DoubleUpDown Name="HueSpinner" FormatString="F1" Value="0" Increment=".1" Margin="685,222,157,321" ValueChanged="HueSpinner_OnValueChanged"/>
-		<Label x:Name="SaturationLabel" Content="S" HorizontalAlignment="Left" Margin="741,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-		<xctk:DoubleUpDown x:Name="SaturationSpinner" FormatString="F1" Value="0" Increment=".1" Margin="761,222,81,321" ValueChanged="SaturationSpinner_OnValueChanged"/>
-		<Label x:Name="BrightnessLabel" Content="B" HorizontalAlignment="Left" Margin="816,222,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="4.722,0.462"/>
-		<xctk:DoubleUpDown x:Name="BrightnessSpinner" FormatString="F1" Value="0" Increment=".1" Margin="835,222,7,321" RenderTransformOrigin="0.5,0.444" ValueChanged="BrightnessSpinner_OnValueChanged"/>
-	
+		<Label x:Name="HueLabel" Content="H" HorizontalAlignment="Left" Margin="648,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<xctk:DoubleUpDown Name="HueSpinner" FormatString="F1" Value="0" Increment=".1" Margin="670,222,172,321" ValueChanged="HueSpinner_OnValueChanged"/>
+		<Label x:Name="SaturationLabel" Content="S" HorizontalAlignment="Left" Margin="726,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<xctk:DoubleUpDown x:Name="SaturationSpinner" FormatString="F1" Maximum="1" Value="0" Increment=".1" Margin="746,222,96,321" ValueChanged="SaturationSpinner_OnValueChanged"/>
+		<Label x:Name="BrightnessLabel" Content="B" HorizontalAlignment="Left" Margin="801,222,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="4.722,0.462"/>
+		<xctk:DoubleUpDown x:Name="BrightnessSpinner" FormatString="F1" Maximum="1" Value="0" Increment=".1" Margin="820,222,22,321" RenderTransformOrigin="0.5,0.444" ValueChanged="BrightnessSpinner_OnValueChanged"/>
+
+		<Button x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="795,272,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.28,0.318" Click="ConnectButton_Click"/>
+
 	</Grid>
 </Window>

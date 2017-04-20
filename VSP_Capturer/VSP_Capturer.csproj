@@ -110,10 +110,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\SocketSettings.cs" />
     <Compile Include="Config\FilterSettings.cs" />
     <Compile Include="Core\Capturer.cs" />
     <Compile Include="Core\Chromakey.cs" />
+    <Compile Include="Core\Sender.cs" />
     <Compile Include="Helpers\BitmapImageExtensions.cs" />
+    <Compile Include="Helpers\ImageScaleExtenrions.cs" />
+    <Compile Include="Helpers\JpegExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

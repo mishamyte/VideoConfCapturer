@@ -13,19 +13,20 @@ namespace VSP_Capturer
 	public partial class MainWindow
 	{
 		private readonly Capturer _capturer;
+		private readonly Sender _sender;
 		private readonly ConfigManager _configManager;
-		private readonly FilterSettings _filterSettings;
 
 		public MainWindow()
 		{
 			_configManager = new ConfigManager();
 			_configManager.InitDefaultFilterSettings();
-			_filterSettings = _configManager.FilterSettings;
+			_configManager.InitDefaultConnectionSettings();
 
 			// Now _filterSettings resets when components are inited (cause change evens are triggered)
 			InitializeComponent();
 
-			_capturer = new Capturer(CameraImage, _filterSettings);
+			_sender = new Sender(_configManager);
+			_capturer = new Capturer(CameraImage, _sender, _configManager);
 
 			FillCamerasList();
 			InitValues();
@@ -34,13 +35,14 @@ namespace VSP_Capturer
 		public void CloseAll(object sender, CancelEventArgs e)
 		{
 			_capturer.Close();
+			_sender.Disconnect();
 		}
 
 		private void InitValues()
 		{
-			RedSpinner.Value = _filterSettings.Red;
-			GreenSpinner.Value = _filterSettings.Green;
-			BlueSpinner.Value = _filterSettings.Blue;
+			RedSpinner.Value = _configManager.FilterSettings.Red;
+			GreenSpinner.Value = _configManager.FilterSettings.Green;
+			BlueSpinner.Value = _configManager.FilterSettings.Blue;
 		}
 
 		private void FillCamerasList()
@@ -70,23 +72,23 @@ namespace VSP_Capturer
 
 		private void ChromakeyCheckbox_StateChanged(object sender, RoutedEventArgs e)
 		{
-			if (ChromakeyCheckbox.IsChecked != null) _filterSettings.ApplyFilter = (bool) ChromakeyCheckbox.IsChecked;
+			if (ChromakeyCheckbox.IsChecked != null) _configManager.FilterSettings.ApplyFilter = (bool) ChromakeyCheckbox.IsChecked;
 		}
 
 		private void RedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			_filterSettings.Red = (int) RedSlider.Value;
-			RedSpinner.Value = _filterSettings.Red;
+			_configManager.FilterSettings.Red = (int) RedSlider.Value;
+			RedSpinner.Value = _configManager.FilterSettings.Red;
 			_capturer?.CreateFilter();
 			ChangeCanvasColor();
 		}
 
 		private void RedSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			if (_filterSettings != null)
+			if (_configManager.FilterSettings != null)
 			{
-				if (RedSpinner.Value != null) _filterSettings.Red = (int) RedSpinner.Value;
-				RedSlider.Value = _filterSettings.Red;
+				if (RedSpinner.Value != null) _configManager.FilterSettings.Red = (int) RedSpinner.Value;
+				RedSlider.Value = _configManager.FilterSettings.Red;
 				_capturer?.CreateFilter();
 				ChangeCanvasColor();
 			}
@@ -94,18 +96,18 @@ namespace VSP_Capturer
 
 		private void GreenSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			_filterSettings.Green = (int)GreenSlider.Value;
-			GreenSpinner.Value = _filterSettings.Green;
+			_configManager.FilterSettings.Green = (int)GreenSlider.Value;
+			GreenSpinner.Value = _configManager.FilterSettings.Green;
 			_capturer?.CreateFilter();
 			ChangeCanvasColor();
 		}
 
 		private void GreenSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			if (_filterSettings != null)
+			if (_configManager.FilterSettings != null)
 			{
-				if (GreenSpinner.Value != null) _filterSettings.Green = (int)GreenSpinner.Value;
-				GreenSlider.Value = _filterSettings.Green;
+				if (GreenSpinner.Value != null) _configManager.FilterSettings.Green = (int)GreenSpinner.Value;
+				GreenSlider.Value = _configManager.FilterSettings.Green;
 				_capturer?.CreateFilter();
 				ChangeCanvasColor();
 			}
@@ -113,18 +115,18 @@ namespace VSP_Capturer
 
 		private void BlueSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			_filterSettings.Blue = (int)BlueSlider.Value;
-			BlueSpinner.Value = _filterSettings.Blue;
+			_configManager.FilterSettings.Blue = (int)BlueSlider.Value;
+			BlueSpinner.Value = _configManager.FilterSettings.Blue;
 			_capturer?.CreateFilter();
 			ChangeCanvasColor();
 		}
 
 		private void BlueSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			if (_filterSettings != null)
+			if (_configManager.FilterSettings != null)
 			{
-				if (BlueSpinner.Value != null) _filterSettings.Blue = (int) BlueSpinner.Value;
-				BlueSlider.Value = _filterSettings.Blue;
+				if (BlueSpinner.Value != null) _configManager.FilterSettings.Blue = (int) BlueSpinner.Value;
+				BlueSlider.Value = _configManager.FilterSettings.Blue;
 				_capturer?.CreateFilter();
 				ChangeCanvasColor();
 			}
@@ -132,15 +134,15 @@ namespace VSP_Capturer
 
 		private void ChangeCanvasColor()
 		{
-			var color = Color.FromRgb((byte) _filterSettings.Red, (byte) _filterSettings.Green, (byte) _filterSettings.Blue);
+			var color = Color.FromRgb((byte)_configManager.FilterSettings.Red, (byte)_configManager.FilterSettings.Green, (byte)_configManager.FilterSettings.Blue);
 			ColorCanvas.Background = new SolidColorBrush(color);
 		}
 
 		private void HueSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			if (_filterSettings != null)
+			if (_configManager.FilterSettings != null)
 			{
-				if (HueSpinner.Value != null) _filterSettings.Hue = (float) HueSpinner.Value;
+				if (HueSpinner.Value != null) _configManager.FilterSettings.Hue = (float) HueSpinner.Value;
 				_capturer?.CreateFilter();
 			}
 		}
@@ -148,19 +150,33 @@ namespace VSP_Capturer
 
 		private void SaturationSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			if (_filterSettings != null)
+			if (_configManager.FilterSettings != null)
 			{
-				if (SaturationSpinner.Value != null) _filterSettings.Saturation = (float) SaturationSpinner.Value;
+				if (SaturationSpinner.Value != null) _configManager.FilterSettings.Saturation = (float) SaturationSpinner.Value;
 				_capturer?.CreateFilter();
 			}
 		}
 
 		private void BrightnessSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			if (_filterSettings != null)
+			if (_configManager.FilterSettings != null)
 			{
-				if (BrightnessSpinner.Value != null) _filterSettings.Brightness = (float) BrightnessSpinner.Value;
+				if (BrightnessSpinner.Value != null) _configManager.FilterSettings.Brightness = (float) BrightnessSpinner.Value;
 				_capturer?.CreateFilter();
+			}
+		}
+
+		private void ConnectButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (_configManager.SocketSettings.IsSendActive)
+			{
+				ConnectButton.Content = "Connect";
+				_sender.Disconnect();
+			}
+			else
+			{
+				ConnectButton.Content = "Disconnect";
+				_sender.Connect();
 			}
 		}
 	}
