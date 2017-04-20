@@ -19,11 +19,12 @@ namespace VSP_Capturer
 		public MainWindow()
 		{
 			_configManager = new ConfigManager();
-			_configManager.InitDefaultFilterSettings();
-			_configManager.InitDefaultConnectionSettings();
 
 			// Now _filterSettings resets when components are inited (cause change evens are triggered)
 			InitializeComponent();
+
+			_configManager.LoadFilterSettings();
+			_configManager.LoadSocketSettings();
 
 			_sender = new Sender(_configManager);
 			_capturer = new Capturer(CameraImage, _sender, _configManager);
@@ -43,6 +44,9 @@ namespace VSP_Capturer
 			RedSpinner.Value = _configManager.FilterSettings.Red;
 			GreenSpinner.Value = _configManager.FilterSettings.Green;
 			BlueSpinner.Value = _configManager.FilterSettings.Blue;
+			HueSpinner.Value = _configManager.FilterSettings.Hue;
+			SaturationSpinner.Value = _configManager.FilterSettings.Saturation;
+			BrightnessSpinner.Value = _configManager.FilterSettings.Brightness;
 		}
 
 		private void FillCamerasList()
@@ -81,6 +85,7 @@ namespace VSP_Capturer
 			RedSpinner.Value = _configManager.FilterSettings.Red;
 			_capturer?.CreateFilter();
 			ChangeCanvasColor();
+			_configManager.SaveFilterSettings();
 		}
 
 		private void RedSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -91,6 +96,7 @@ namespace VSP_Capturer
 				RedSlider.Value = _configManager.FilterSettings.Red;
 				_capturer?.CreateFilter();
 				ChangeCanvasColor();
+				_configManager.SaveFilterSettings();
 			}
 		}
 
@@ -100,6 +106,7 @@ namespace VSP_Capturer
 			GreenSpinner.Value = _configManager.FilterSettings.Green;
 			_capturer?.CreateFilter();
 			ChangeCanvasColor();
+			_configManager.SaveFilterSettings();
 		}
 
 		private void GreenSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -110,6 +117,7 @@ namespace VSP_Capturer
 				GreenSlider.Value = _configManager.FilterSettings.Green;
 				_capturer?.CreateFilter();
 				ChangeCanvasColor();
+				_configManager.SaveFilterSettings();
 			}
 		}
 
@@ -119,6 +127,7 @@ namespace VSP_Capturer
 			BlueSpinner.Value = _configManager.FilterSettings.Blue;
 			_capturer?.CreateFilter();
 			ChangeCanvasColor();
+			_configManager.SaveFilterSettings();
 		}
 
 		private void BlueSpinner_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -129,6 +138,7 @@ namespace VSP_Capturer
 				BlueSlider.Value = _configManager.FilterSettings.Blue;
 				_capturer?.CreateFilter();
 				ChangeCanvasColor();
+				_configManager.SaveFilterSettings();
 			}
 		}
 
@@ -144,6 +154,7 @@ namespace VSP_Capturer
 			{
 				if (HueSpinner.Value != null) _configManager.FilterSettings.Hue = (float) HueSpinner.Value;
 				_capturer?.CreateFilter();
+				_configManager.SaveFilterSettings();
 			}
 		}
 
@@ -154,6 +165,7 @@ namespace VSP_Capturer
 			{
 				if (SaturationSpinner.Value != null) _configManager.FilterSettings.Saturation = (float) SaturationSpinner.Value;
 				_capturer?.CreateFilter();
+				_configManager.SaveFilterSettings();
 			}
 		}
 
@@ -163,6 +175,7 @@ namespace VSP_Capturer
 			{
 				if (BrightnessSpinner.Value != null) _configManager.FilterSettings.Brightness = (float) BrightnessSpinner.Value;
 				_capturer?.CreateFilter();
+				_configManager.SaveFilterSettings();
 			}
 		}
 
