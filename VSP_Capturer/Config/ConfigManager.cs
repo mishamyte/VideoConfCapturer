@@ -6,9 +6,7 @@ namespace VSP_Capturer.Config
 	public class ConfigManager
 	{
 		private readonly Configuration _config;
-		//TODO: Save info in the config file
 		public FilterSettings FilterSettings { get; set; }
-
 		public SocketSettings SocketSettings { get; set; }
 
 		public ConfigManager()
@@ -43,9 +41,9 @@ namespace VSP_Capturer.Config
 			_config.AppSettings.Settings["Red"].Value = FilterSettings.Red.ToString();
 			_config.AppSettings.Settings["Green"].Value = FilterSettings.Green.ToString();
 			_config.AppSettings.Settings["Blue"].Value = FilterSettings.Blue.ToString();
-			_config.AppSettings.Settings["Hue"].Value = FilterSettings.Hue.ToString(CultureInfo.InvariantCulture);
-			_config.AppSettings.Settings["Saturation"].Value = FilterSettings.Saturation.ToString(CultureInfo.InvariantCulture);
-			_config.AppSettings.Settings["Brightness"].Value = FilterSettings.Brightness.ToString(CultureInfo.InvariantCulture);
+			_config.AppSettings.Settings["Hue"].Value = FilterSettings.Hue.ToString("R");
+			_config.AppSettings.Settings["Saturation"].Value = FilterSettings.Saturation.ToString("R");
+			_config.AppSettings.Settings["Brightness"].Value = FilterSettings.Brightness.ToString("R");
 			_config.Save(ConfigurationSaveMode.Modified);
 			ConfigurationManager.RefreshSection("appSettings");
 		}
