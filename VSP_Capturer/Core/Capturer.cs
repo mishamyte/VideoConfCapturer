@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using VSP_Capturer.Config;
 using VSP_Capturer.Helpers;
 using Image = System.Windows.Controls.Image;
 
@@ -17,15 +18,18 @@ namespace VSP_Capturer.Core
 	    private readonly Image _cameraImage;
 
 	    private readonly Chromakey _chromakey = new Chromakey();
+	    private readonly FilterSettings _filterSettings;
 
 	    private FilterInfoCollection _cameras;
 	    private VideoCaptureDevice _device;
 
-	    public Capturer(Image cameraImage, ComboBox camerasList, Button recordingButton)
+	    public Capturer(Image cameraImage, ComboBox camerasList, Button recordingButton, FilterSettings filterSettings)
 	    {
 		    _cameraImage = cameraImage;
 		    _camerasList = camerasList;
 		    _recordingButton = recordingButton;
+
+		    _filterSettings = filterSettings;
 
 		    _recordingButton.Click += RecordingButtonClicked;
 
@@ -34,7 +38,12 @@ namespace VSP_Capturer.Core
 
 	    public void Close()
 	    {
-		    if (_device.IsRunning) _device.Stop();
+		    if (_device != null && _device.IsRunning) _device.Stop();
+	    }
+
+	    public void CreateFilter()
+	    {
+		    _chromakey.CreateFilter();
 	    }
 
 	    private void FillCamerasList()
@@ -69,10 +78,10 @@ namespace VSP_Capturer.Core
 	    private void FrameHandler(object sender, NewFrameEventArgs eventArgs)
 	    {
 		    var frame = (Bitmap) eventArgs.Frame.Clone();
-		    var frameImage = _chromakey.ApplyFilter(frame).ToBitmapImage();
-		    //var frameImage = frame.ToBitmapImage();
+		    var frameImage = 
+				_filterSettings.ApplyFilter ? _chromakey.ApplyFilter(frame).ToBitmapImage() : frame.ToBitmapImage();
 
-		    frameImage.Freeze();
+			frameImage.Freeze();
 
 			Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
 					new Action(() => _cameraImage.Source = frameImage));

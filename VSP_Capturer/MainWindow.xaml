@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:VSP_Capturer"
         mc:Ignorable="d"
         Title="Video System Capturer"  
@@ -10,9 +11,25 @@
 		Closing="CloseAll"
 		Height="600" Width="900">
 	<Grid>
+		<Canvas Name="ColorCanvas" HorizontalAlignment="Left" Height="109" Margin="659,108,0,0" VerticalAlignment="Top" Width="230"/>
+
 		<Image x:Name="CameraImage" HorizontalAlignment="Left" Height="450" Margin="29,44,0,0" VerticalAlignment="Top" Width="600"/>
 		<ComboBox x:Name="CamerasList" HorizontalAlignment="Left" Margin="663,44,0,0" VerticalAlignment="Top" Width="120"/>
 		<Button x:Name="RecordingButton" Content="Start" HorizontalAlignment="Left" Margin="795,44,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.404,0.394"/>
+
+		<CheckBox x:Name="ChromakeyCheckbox" Content="Apply Chromakey" HorizontalAlignment="Left" Margin="663,87,0,0" VerticalAlignment="Top" Width="120" Checked="ChromakeyCheckbox_StateChanged" Unchecked="ChromakeyCheckbox_StateChanged"/>
+
+		<Label x:Name="RedLabel" Content="R" HorizontalAlignment="Left" Margin="659,116,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<Slider x:Name="RedSlider" HorizontalAlignment="Left" Margin="685,120,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="RedSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
+		<xctk:IntegerUpDown x:Name="RedSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="835,120,6,424" RenderTransformOrigin="1.225,-8.846" ValueChanged="RedSpinner_OnValueChanged"/>
+
+		<Label x:Name="GreenLabel" Content="G" HorizontalAlignment="Left" Margin="659,147,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<Slider x:Name="GreenSlider" HorizontalAlignment="Left" Margin="685,151,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="GreenSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
+		<xctk:IntegerUpDown x:Name="GreenSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="835,151,6,393" RenderTransformOrigin="1.225,-8.846" ValueChanged="GreenSpinner_OnValueChanged"/>
+
+		<Label x:Name="BlueLabel" Content="B" HorizontalAlignment="Left" Margin="659,178,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+		<Slider x:Name="BlueSlider" HorizontalAlignment="Left" Margin="685,182,0,0" VerticalAlignment="Top" Width="145" Maximum="255" ValueChanged="BlueSlider_ValueChanged" SmallChange="1" IsSnapToTickEnabled="True" Value="0"/>
+		<xctk:IntegerUpDown x:Name="BlueSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="835,182,6,362" RenderTransformOrigin="1.225,-8.846" ValueChanged="BlueSpinner_OnValueChanged"/>
 
 	</Grid>
 </Window>
