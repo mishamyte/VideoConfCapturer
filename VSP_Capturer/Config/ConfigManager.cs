@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using System.Globalization;
 
 namespace VSP_Capturer.Config
 {

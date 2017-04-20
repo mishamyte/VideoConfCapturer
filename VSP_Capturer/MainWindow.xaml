@@ -10,7 +10,9 @@
         WindowStartupLocation="CenterScreen"
 		Closing="CloseAll"
 		ResizeMode="CanMinimize"
-		Height="600" Width="900">
+		Icon="icon.ico"
+		Height="600" 
+		Width="900">
 	<Grid>
 		<Canvas Name="ColorCanvas" HorizontalAlignment="Left" Height="109" Margin="642,108,0,0" VerticalAlignment="Top" Width="230"/>
 
