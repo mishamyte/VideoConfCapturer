@@ -16,6 +16,8 @@ namespace VSP_Capturer.Core
 	    private readonly Button _recordingButton;
 	    private readonly Image _cameraImage;
 
+	    private readonly Chromakey _chromakey = new Chromakey();
+
 	    private FilterInfoCollection _cameras;
 	    private VideoCaptureDevice _device;
 
@@ -32,7 +34,7 @@ namespace VSP_Capturer.Core
 
 	    public void Close()
 	    {
-		    _device.Stop();
+		    if (_device.IsRunning) _device.Stop();
 	    }
 
 	    private void FillCamerasList()
@@ -58,6 +60,7 @@ namespace VSP_Capturer.Core
 		    {
 			    _recordingButton.Content = "Start";
 				_device.Stop();
+				FillCamerasList();
 				Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background,
 					new Action(() => _cameraImage.Source = null));
 			}
@@ -66,7 +69,8 @@ namespace VSP_Capturer.Core
 	    private void FrameHandler(object sender, NewFrameEventArgs eventArgs)
 	    {
 		    var frame = (Bitmap) eventArgs.Frame.Clone();
-		    var frameImage = frame.ToBitmapImage();
+		    var frameImage = _chromakey.ApplyFilter(frame).ToBitmapImage();
+		    //var frameImage = frame.ToBitmapImage();
 
 		    frameImage.Freeze();
 
