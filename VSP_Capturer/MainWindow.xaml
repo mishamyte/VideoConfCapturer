@@ -35,11 +35,11 @@
 		<xctk:IntegerUpDown x:Name="BlueSpinner" Minimum="0" Maximum="255" Increment="1" Value="0" Margin="820,182,21,362" RenderTransformOrigin="1.225,-8.846" ValueChanged="BlueSpinner_OnValueChanged"/>
 
 		<Label x:Name="HueLabel" Content="H" HorizontalAlignment="Left" Margin="648,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-		<xctk:DoubleUpDown Name="HueSpinner" FormatString="F1" Value="0" Increment=".1" Margin="670,222,172,321" ValueChanged="HueSpinner_OnValueChanged"/>
+		<xctk:DoubleUpDown Name="HueSpinner" FormatString="F1" Minimum="0" Maximum="360" Value="0" Increment=".5" Margin="670,222,172,321" ValueChanged="HueSpinner_OnValueChanged"/>
 		<Label x:Name="SaturationLabel" Content="S" HorizontalAlignment="Left" Margin="726,222,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-		<xctk:DoubleUpDown x:Name="SaturationSpinner" FormatString="F1" Maximum="1" Value="0" Increment=".1" Margin="746,222,96,321" ValueChanged="SaturationSpinner_OnValueChanged"/>
+		<xctk:DoubleUpDown x:Name="SaturationSpinner" FormatString="F1" Minimum="0" Maximum="1" Value="0" Increment=".1" Margin="746,222,96,321" ValueChanged="SaturationSpinner_OnValueChanged"/>
 		<Label x:Name="BrightnessLabel" Content="B" HorizontalAlignment="Left" Margin="801,222,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="4.722,0.462"/>
-		<xctk:DoubleUpDown x:Name="BrightnessSpinner" FormatString="F1" Maximum="1" Value="0" Increment=".1" Margin="820,222,22,321" RenderTransformOrigin="0.5,0.444" ValueChanged="BrightnessSpinner_OnValueChanged"/>
+		<xctk:DoubleUpDown x:Name="BrightnessSpinner" FormatString="F1" Minimum="0" Maximum="1" Value="0" Increment=".1" Margin="820,222,22,321" RenderTransformOrigin="0.5,0.444" ValueChanged="BrightnessSpinner_OnValueChanged"/>
 
 		<Button x:Name="ConnectButton" Content="Connect" HorizontalAlignment="Left" Margin="795,272,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.28,0.318" Click="ConnectButton_Click"/>
 
